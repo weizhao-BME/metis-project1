@@ -5,52 +5,55 @@
 
 ## Group Members
 
-### Are you in Lasso or Ridge?
+Are you in Lasso or Ridge?
 
 Lasso
 
-### Who is in your group?
+Who is in your group?
 
 Liam Isaacs, Elliot Wilens, Wei Zhao
 
+----
+
 ## Setting up the Project
 
-### What are the goals of your analysis? Be as specific as possible (Hint: what WTWY’s goals?)
+What are the goals of your analysis? Be as specific as possible (Hint: what WTWY’s goals?)
 
 
-### Ok, now look at those goals and take your thoughts a step further. Can you make those goals even more detailed?
+Ok, now look at those goals and take your thoughts a step further. Can you make those goals even more detailed?
 
 
-### How will you address those goals? Write down the specific steps and/or analytical tools you will use for each goal.
+How will you address those goals? Write down the specific steps and/or analytical tools you will use for each goal.
 
 
-### Brainstorm what else you could do for this project. One example might be adding another data source, but what else can you come up with? What additional steps would enhance your analysis?
+Brainstorm what else you could do for this project. One example might be adding another data source, but what else can you come up with? What additional steps would enhance your analysis?
 
 
-### What are steps you will take while you go through this project? What is your process? For example, one step would be to make a presentation. What might come before and after that?
+What are steps you will take while you go through this project? What is your process? For example, one step would be to make a presentation. What might come before and after that?
 
+----
 
 ## Setting up Group Work
 
-### How often will your group check in? Set a schedule.
+How often will your group check in? Set a schedule.
 
 
-### How will your group check in?
+How will your group check in?
 
 
-### How will you share what you’re working on? (e.g. through a GitHub repo, verbally through check-ins, etc)
+How will you share what you’re working on? (e.g. through a GitHub repo, verbally through check-ins, etc)
 
 
-### Look above at what you designated as the steps of the project. Who will be responsible for which steps or tasks? How will you divide up your work? 
+Look above at what you designated as the steps of the project. Who will be responsible for which steps or tasks? How will you divide up your work? 
 
 
-### Don’t neglect the communication part of this project: think about how each part of your work with data will flow into a presentation and who will be doing which part of the presenting.
+Don’t neglect the communication part of this project: think about how each part of your work with data will flow into a presentation and who will be doing which part of the presenting.
 
 
-### When should each task be completed?
+When should each task be completed?
 
 
-### Establish group norms. Are there any ground rules you should all follow? How will you fruitfully address any conflict that might arise?
+Establish group norms. Are there any ground rules you should all follow? How will you fruitfully address any conflict that might arise?
 
 ----
 
