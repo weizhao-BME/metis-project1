@@ -56,7 +56,7 @@ def generate_mta_data(num_weeks=None):
             df = pd.read_csv(
                 j, sep=r"\s*,\s*", header=0, engine="python"
             )  # else "EXITS" gives an error, python engine will avoid warning
-            df["dt"] = df["DATE"] + " " + df["TIME"]
+            df["dt"] = df["date"] + " " + df["time"]
             data = pd.concat([data, df])
             data.sort_values(by=["station", "scp", "dt"], inplace=True)
 
