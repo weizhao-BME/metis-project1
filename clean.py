@@ -36,17 +36,17 @@ def generate_mta_data(num_weeks=None):
         o = o + (ins,)
 
     col = [
-        "C/A",
-        "UNIT",
-        "SCP",
-        "STATION",
-        "LINENAME",
-        "DIVISION",
-        "DATE",
-        "TIME",
-        "DESC",
-        "ENTRIES",
-        "EXITS",
+        "c/a",
+        "unit",
+        "scp",
+        "station",
+        "linename",
+        "division",
+        "date",
+        "time",
+        "desc",
+        "entries",
+        "exits",
     ]
     data = pd.DataFrame()
 
@@ -70,14 +70,14 @@ def generate_mta_data(num_weeks=None):
     groups = data.groupby("station_scp")
 
     dfs = {}
-    
+
     for name, group in groups:
         new_df = group.copy()
         new_df["hourly_entries"] = new_df.ENTRIES.diff()
-        new_df['hourly_entries'] = new_df["hourly_entries"].fillna(0)
-        
+        new_df["hourly_entries"] = new_df["hourly_entries"].fillna(0)
+
         new_df["hourly_exits"] = new_df.EXITS.diff()
-        new_df['hourly_exits'] = new_df["hourly_exits"].fillna(0)
+        new_df["hourly_exits"] = new_df["hourly_exits"].fillna(0)
         dfs[name] = new_df
 
     df = pd.concat(dfs).reset_index()
