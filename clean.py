@@ -30,8 +30,8 @@ def generate_mta_data(num_weeks=None):
     for i in range(start, end):
         # for i in range(37, len(a)):
         ins = (
-            a[i].get_text(),
-            URL_PREFACE + a[i]["href"],
+            links[i].get_text(),
+            URL_PREFACE + links[i]["href"],
         )
         link_dates = link_dates + (ins,)
 
