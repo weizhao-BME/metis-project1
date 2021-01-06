@@ -19,8 +19,8 @@ def generate_mta_data(num_weeks=None):
 
     # print(soup.prettify()) you can see 'soup' is our entire html page
     URL_PREFACE = "http://web.mta.info/developers/"
-    a = soup.find_all("a")
-    o = ()
+    links = soup.find_all("a")
+    link_dates = ()
     # correct files start at index 37
     start = 37
     if num_weeks is None:
@@ -33,7 +33,7 @@ def generate_mta_data(num_weeks=None):
             a[i].get_text(),
             URL_PREFACE + a[i]["href"],
         )
-        o = o + (ins,)
+        link_dates = link_dates + (ins,)
 
     col = [
         "c/a",
@@ -50,13 +50,13 @@ def generate_mta_data(num_weeks=None):
     ]
     data = pd.DataFrame()
 
-    for a, b in o:
-        d = a[-4:]
+    for i, j in link_dates:
+        d = i[-4:]
         if d.find("2020") != -1:
             df = pd.read_csv(
-                b, sep=r"\s*,\s*", header=0, engine="python"
+                j, sep=r"\s*,\s*", header=0, engine="python"
             )  # else "EXITS" gives an error, python engine will avoid warning
-            df["dt"] = df["date"] + " " + df["time"]
+            df["dt"] = df["DATE"] + " " + df["TIME"]
             data = pd.concat([data, df])
             data.sort_values(by=["station", "scp", "dt"], inplace=True)
 
