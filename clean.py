@@ -56,14 +56,14 @@ def generate_mta_data(num_weeks=None):
             df = pd.read_csv(
                 b, sep=r"\s*,\s*", header=0, engine="python"
             )  # else "EXITS" gives an error, python engine will avoid warning
-            df["dt"] = df["DATE"] + " " + df["TIME"]
+            df["dt"] = df["date"] + " " + df["time"]
             data = pd.concat([data, df])
-            data.sort_values(by=["STATION", "SCP", "dt"], inplace=True)
+            data.sort_values(by=["station", "scp", "dt"], inplace=True)
 
     data["dt"] = pd.to_datetime(data.dt)
 
     # add unique identifier for each turnstile
-    data["station_scp"] = data.STATION + " " + data.SCP
+    data["station_scp"] = data.station + " " + data.scp
     # sort by new identifier, then datetime
     data.sort_values(by=["station_scp", "dt"], inplace=True)
 
@@ -73,10 +73,10 @@ def generate_mta_data(num_weeks=None):
 
     for name, group in groups:
         new_df = group.copy()
-        new_df["hourly_entries"] = new_df.ENTRIES.diff()
+        new_df["hourly_entries"] = new_df.entries.diff()
         new_df["hourly_entries"] = new_df["hourly_entries"].fillna(0)
 
-        new_df["hourly_exits"] = new_df.EXITS.diff()
+        new_df["hourly_exits"] = new_df.exits.diff()
         new_df["hourly_exits"] = new_df["hourly_exits"].fillna(0)
         dfs[name] = new_df
 
