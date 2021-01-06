@@ -69,19 +69,22 @@ def generate_mta_data(num_weeks=None):
     # sort by new identifier, then datetime
     df.sort_values(by=["station_scp", "dt"], inplace=True)
 
+    df['entries'] = df.entries.str.strip('0')
+
     groups = df.groupby("station_scp")
 
     dfs = {}
 
-    # for name, group in groups:
-    #     new_df = group.copy()
-    #     new_df["hourly_entries"] = new_df.entries.diff()
-    #     new_df["hourly_entries"] = new_df["hourly_entries"].fillna(0)
+#     for name, group in groups:
+#         new_df = group.copy()
+#         new_df["hourly_entries"] = new_df.entries.diff()
+#         new_df["hourly_entries"] = new_df["hourly_entries"].fillna(0)
 
-    #     new_df["hourly_exits"] = new_df.exits.diff()
-    #     new_df["hourly_exits"] = new_df["hourly_exits"].fillna(0)
-    #     dfs[name] = new_df
+#         new_df["hourly_exits"] = new_df.exits.diff()
+#         new_df["hourly_exits"] = new_df["hourly_exits"].fillna(0)
+#         dfs[name] = new_df
 
-    # df = pd.concat(dfs).reset_index()
+#     df = pd.concat(dfs).reset_index()
 
     return pd.DataFrame(df)
+
