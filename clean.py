@@ -68,6 +68,7 @@ def generate_mta_data(num_weeks=None):
     df["station_scp"] = df.station + " " + df.scp
     # sort by new identifier, then datetime
     df.sort_values(by=["station_scp", "dt"], inplace=True)
+
     df['entries'] = df.entries.str.strip('0')
 
     groups = df.groupby("station_scp")
@@ -86,3 +87,4 @@ def generate_mta_data(num_weeks=None):
 #     df = pd.concat(dfs).reset_index()
 
     return pd.DataFrame(df)
+
