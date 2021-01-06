@@ -19,8 +19,8 @@ def generate_mta_data(num_weeks=None):
 
     # print(soup.prettify()) you can see 'soup' is our entire html page
     URL_PREFACE = "http://web.mta.info/developers/"
-    a = soup.find_all("a")
-    o = ()
+    links = soup.find_all("a")
+    link_dates = ()
     # correct files start at index 37
     start = 37
     if num_weeks is None:
@@ -30,56 +30,59 @@ def generate_mta_data(num_weeks=None):
     for i in range(start, end):
         # for i in range(37, len(a)):
         ins = (
-            a[i].get_text(),
-            URL_PREFACE + a[i]["href"],
+            links[i].get_text(),
+            URL_PREFACE + links[i]["href"],
         )
-        o = o + (ins,)
+        link_dates = link_dates + (ins,)
 
     col = [
-        "C/A",
-        "UNIT",
-        "SCP",
-        "STATION",
-        "LINENAME",
-        "DIVISION",
-        "DATE",
-        "TIME",
-        "DESC",
-        "ENTRIES",
-        "EXITS",
+        "c/a",
+        "unit",
+        "scp",
+        "station",
+        "linename",
+        "division",
+        "date",
+        "time",
+        "desc",
+        "entries",
+        "exits",
     ]
     data = pd.DataFrame()
 
-    for a, b in o:
-        d = a[-4:]
+    for i, j in link_dates:
+        d = i[-4:]
         if d.find("2020") != -1:
             df = pd.read_csv(
-                b, sep=r"\s*,\s*", header=0, engine="python"
+                j, sep=r"\s*,\s*", header=None, names=col, engine="python"
             )  # else "EXITS" gives an error, python engine will avoid warning
-            df["dt"] = df["DATE"] + " " + df["TIME"]
             data = pd.concat([data, df])
-            data.sort_values(by=["STATION", "SCP", "dt"], inplace=True)
 
-    data["dt"] = pd.to_datetime(data.dt)
+    df = data.copy()
+    df.columns = col
+    df["dt"] = df["date"] + " " + df["time"]
+    # df["dt"] = pd.to_datetime(df.dt)
+    df.sort_values(by=["station", "scp", "dt"], inplace=True)
 
     # add unique identifier for each turnstile
-    data["station_scp"] = data.STATION + " " + data.SCP
+    df["station_scp"] = df.station + " " + df.scp
     # sort by new identifier, then datetime
-    data.sort_values(by=["station_scp", "dt"], inplace=True)
+    df.sort_values(by=["station_scp", "dt"], inplace=True)
+    df['entries'] = df.entries.str.strip('0')
 
-    groups = data.groupby("station_scp")
+    groups = df.groupby("station_scp")
 
     dfs = {}
-    
-    for name, group in groups:
-        new_df = group.copy()
-        new_df["hourly_entries"] = new_df.ENTRIES.diff()
-        new_df['hourly_entries'] = new_df["hourly_entries"].fillna(0)
-        
-        new_df["hourly_exits"] = new_df.EXITS.diff()
-        new_df['hourly_exits'] = new_df["hourly_exits"].fillna(0)
-        dfs[name] = new_df
 
-    df = pd.concat(dfs).reset_index()
+#     for name, group in groups:
+#         new_df = group.copy()
+#         new_df["hourly_entries"] = new_df.entries.diff()
+#         new_df["hourly_entries"] = new_df["hourly_entries"].fillna(0)
+
+#         new_df["hourly_exits"] = new_df.exits.diff()
+#         new_df["hourly_exits"] = new_df["hourly_exits"].fillna(0)
+#         dfs[name] = new_df
+
+#     df = pd.concat(dfs).reset_index()
 
     return pd.DataFrame(df)
