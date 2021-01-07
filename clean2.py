@@ -4,6 +4,8 @@ import datetime
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 
 from datetime import datetime as dt
 
@@ -68,47 +70,37 @@ def data_wrangling():
     df = add_day_name(df)
     
     
+   """
+   RENAME "EXITS             " to "EXITS"
+   Add in prev_exits, prev_entries (describes hourly entries/exits per turnstile)
+    -> NOTE: if value is negative (x<0) or above 20,000 (x>20000), reset to the mean, as is described without these outliers.
+   Drop any duplicates in prev_exits.
+   What is a duplicate? A duplicate can be multiple entries for entries or exits reported at the exact same time (recall 
+   data is collected every 4 hours). This is an impossible feat, so we will disregard these values in their entirety.
+   
+   Add in hourly_traffic to give an idea for entry/exit per hour per turnstile. We can use this to identify top 10 stations.
+   """
+    df =df.rename(columns={"EXITS                                                               ": "EXITS"}, errors="raise")
+   
+    df['PREV_EXITS'] = df.EXITS - df.EXITS.shift(1)
+    df['PREV_ENTRIES'] = df.ENTRIES - df.ENTRIES.shift(1)
+
+    df["PREV_ENTRIES"] = df['PREV_ENTRIES'].transform(
+        lambda x: np.where((x<0)|(x>20000),x.mask((x<0)|(x>20000)).mean(),x))
+
+    df['PREV_EXITS'] = df['PREV_EXITS'].transform(
+        lambda x: np.where((x<0)|(x>20000),x.mask((x<0)|(x>20000)).mean(),x))
+
+    df.dropna(subset=["PREV_EXITS"], axis=0, inplace=True)
+
+    df['HOURLY_TRAFFIC'] = df.PREV_EXITS + df.PREV_ENTRIES
+    
+    #top 10 stations by hourly_traffic:
+    #df.groupby('STATION').HOURLY_TRAFFIC.sum().sort_values(ascending=False)[:10]
+    
+    #best turnstile by hourly_traffic
+    #best_turnstile = df['HOURLY_TRAFFIC'].idxmax()
+    #df.loc[best_turnstile,]
+    
     return df
-
-
-def get_daily_entries(df):
-
-    # group data by date, taking the maximum for each date as we 
-    daily_entries = df.groupby(
-        ["C/A", "UNIT", "SCP", "STATION", "DATE", "AMPM", "DAY_NAME"], as_index=False
-    ).ENTRIES.max()
-    # create prev_date and prev_entries cols by shifting these columns forward one day
-    daily_entries[["PREV_DATE", "PREV_ENTRIES"]] = daily_entries.groupby(
-        ["C/A", "UNIT", "SCP", "STATION", "AMPM", "DAY_NAME"]
-    )[["DATE", "ENTRIES"]].apply(lambda grp: grp.shift(1))
-
-    # Drop the rows for the earliest date in the df, which are now NaNs for prev_date and prev_entries cols
-    daily_entries.dropna(subset=["PREV_DATE"], axis=0, inplace=True)
-
-    def get_daily_counts(row, max_counter):
-        """ Max counter is the maximum difference between entries & prev. entries that
-        we will allow.
-        """
-
-        counter = row["ENTRIES"] - row["PREV_ENTRIES"]
-        if counter < 0:
-            # Maybe counter is reversed?
-            counter = -counter
-
-        if counter > max_counter:
-            # Maybe counter was reset to 0?
-            # take the lower value as the counter for this row
-            counter = min(row["ENTRIES"], row["PREV_ENTRIES"])
-
-        if counter > max_counter:
-            # Check it again to make sure we're not still giving a counter that's too big
-            return 0
-
-        return counter
-
-    # we will use a 200k counter - anything more seems incorrect.
-    daily_entries["DAILY_ENTRIES"] = daily_entries.apply(
-        get_daily_counts, axis=1, max_counter=200000
-    )
-    return daily_entries
 
