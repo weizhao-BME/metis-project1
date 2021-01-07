@@ -14,6 +14,15 @@ def data_wrangling():
     Data wrangling is performed here and returns a data frame
     """
 
+    #week_nums of all 2019:
+    
+    '''
+    week_nums = [190105, 190112, 190119, 190126, 190202, 190209, 190216, 190223, 190302, 190309, 190316, 190323, 190330, 190406,
+                190413, 190420, 190427, 190504, 190511, 190518, 190525, 190601, 190615, 190622, 190629, 190706, 190713, 190720, 
+                190722, 190803, 190810, 190817, 190824, 190831, 190904, 190914, 190921, 190928, 191005, 191012, 191019, 191026,
+                191102, 191109, 191116, 191123, 191130, 191207]
+    '''
+    
     def get_mta_data2(week_nums=[160903, 160910, 160917]):
         """Download data from MTA website and create DT column. 
 
@@ -70,16 +79,16 @@ def data_wrangling():
     df = add_day_name(df)
     
     
-   """
-   RENAME "EXITS             " to "EXITS"
-   Add in prev_exits, prev_entries (describes hourly entries/exits per turnstile)
-    -> NOTE: if value is negative (x<0) or above 20,000 (x>20000), reset to the mean, as is described without these outliers.
-   Drop any duplicates in prev_exits.
-   What is a duplicate? A duplicate can be multiple entries for entries or exits reported at the exact same time (recall 
-   data is collected every 4 hours). This is an impossible feat, so we will disregard these values in their entirety.
+    """
+    RENAME "EXITS             " to "EXITS"
+    Add in prev_exits, prev_entries (describes hourly entries/exits per turnstile)
+     -> NOTE: if value is negative (x<0) or above 20,000 (x>20000), reset to the mean, as is described without these outliers.
+    Drop any duplicates in prev_exits.
+    What is a duplicate? A duplicate can be multiple entries for entries or exits reported at the exact same time (recall 
+    data is collected every 4 hours). This is an impossible feat, so we will disregard these values in their entirety.
    
-   Add in hourly_traffic to give an idea for entry/exit per hour per turnstile. We can use this to identify top 10 stations.
-   """
+    Add in hourly_traffic to give an idea for entry/exit per hour per turnstile. We can use this to identify top 10 stations.
+    """
     df =df.rename(columns={"EXITS                                                               ": "EXITS"}, errors="raise")
    
     df['PREV_EXITS'] = df.EXITS - df.EXITS.shift(1)
