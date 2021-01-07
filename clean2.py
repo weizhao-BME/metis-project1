@@ -1,19 +1,11 @@
-"""The following functions will be used as Jupyer Notebook imports to quickly generate the MTA necessary for our analysis.
-
-Find more information about the project here: https://github.com/edubu2/metis-project1
-"""
-
 from __future__ import print_function, division
 
 import datetime
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import numpy as np
-
 
 from datetime import datetime as dt
-
 
 def data_wrangling():
     """
@@ -21,7 +13,7 @@ def data_wrangling():
     """
 
     def get_mta_data2(week_nums=[160903, 160910, 160917]):
-        """Download data from MTA website and create DT column.
+        """Download data from MTA website and create DT column. 
 
         Returns: dataFrame"""
         url = "http://web.mta.info/developers/data/nyct/turnstile/turnstile_{}.txt"
@@ -30,25 +22,21 @@ def data_wrangling():
         for week_num in week_nums:
             file_url = url.format(week_num)
             dfs.append(
-                pd.read_csv(
-                    file_url, parse_dates=[["DATE", "TIME"]], keep_date_col=True
-                )
+                pd.read_csv(file_url, parse_dates=[["DATE", "TIME"]], keep_date_col=True)
             )
         return pd.concat(dfs)
 
     def clean_data(df):
-        """Removes rows where 'DESC' == 'RECOVR AUD' (not 'REGULAR').
-        These caused duplicate entries when grouping by turnstile & datetime.
+        """ Removes rows where 'DESC' == 'RECOVR AUD' (not 'REGULAR').
+            These caused duplicate entries when grouping by turnstile & datetime.
 
-        Removes DESC column.
+            Removes DESC column.
 
-        """
+            """
 
         # sort values in a such a way that the duplicate values sit directly below the originals, so they will be removed.
         df.sort_values(
-            ["C/A", "UNIT", "SCP", "STATION", "DATE_TIME"],
-            inplace=True,
-            ascending=False,
+            ["C/A", "UNIT", "SCP", "STATION", "DATE_TIME"], inplace=True, ascending=False
         )
         # keeps top row, deletes others
         df.drop_duplicates(
@@ -57,68 +45,108 @@ def data_wrangling():
 
         # remove DESC column
         df = df.drop(["DESC"], axis=1, errors="ignore")
+        
+        df.rename(columns={'EXITS                                                               ': 
+               'EXITS'}, inplace=True)
 
         return df
 
     def add_ampm(df):
         """
-        Function to convert time tp AM/PM
+        Function to convert time to AM/PM
         """
-        df["AMPM"] = pd.DatetimeIndex(df["TIME"]).strftime("%r").str[-2:]
+        df['AMPM'] = pd.DatetimeIndex(df['TIME']).strftime('%r').str[-2:]
         return df
 
     def add_day_name(df):
         """
         Function to convert date to day name
         """
-        df["DAY_NAME"] = pd.to_datetime(df["DATE"]).dt.day_name()
+        df['DAY_NAME'] = pd.to_datetime(df['DATE']).dt.day_name()
         return df
-
+    
     df = get_mta_data2()
     df = clean_data(df)
     df = add_ampm(df)
     df = add_day_name(df)
-
-    """   RENAME "EXITS             " to "EXITS"
-   Add in prev_exits, prev_entries (describes hourly entries/exits per turnstile)
-    -> NOTE: if value is negative (x<0) or above 20,000 (x>20000), reset to the mean, as is described without these outliers.
-   Drop any duplicates in prev_exits.
-   What is a duplicate? A duplicate can be multiple entries for entries or exits reported at the exact same time (recall 
-   data is collected every 4 hours). This is an impossible feat, so we will disregard these values in their entirety.
-   
-   Add in hourly_traffic to give an idea for entry/exit per hour per turnstile. We can use this to identify top 10 stations.
-    """
-    df = df.rename(
-        columns={
-            "EXITS                                                               ": "EXITS"
-        },
-        errors="raise",
-    )
-
-    df["PREV_EXITS"] = df.EXITS - df.EXITS.shift(1)
-    df["PREV_ENTRIES"] = df.ENTRIES - df.ENTRIES.shift(1)
-
-    df["PREV_ENTRIES"] = df["PREV_ENTRIES"].transform(
-        lambda x: np.where(
-            (x < 0) | (x > 20000), x.mask((x < 0) | (x > 20000)).mean(), x
-        )
-    )
-
-    df["PREV_EXITS"] = df["PREV_EXITS"].transform(
-        lambda x: np.where(
-            (x < 0) | (x > 20000), x.mask((x < 0) | (x > 20000)).mean(), x
-        )
-    )
-
-    df.dropna(subset=["PREV_EXITS"], axis=0, inplace=True)
-
-    df["HOURLY_TRAFFIC"] = df.PREV_EXITS + df.PREV_ENTRIES
-
-    # top 10 stations by hourly_traffic:
-    # df.groupby('STATION').HOURLY_TRAFFIC.sum().sort_values(ascending=False)[:10]
-
-    # best turnstile by hourly_traffic
-    # best_turnstile = df['HOURLY_TRAFFIC'].idxmax()
-    # df.loc[best_turnstile,]
-
+    
+    
     return df
+
+
+def get_tmp_entries(df):
+
+    # group data by date, taking the maximum for each date as we 
+    tmp = df.groupby(
+        ["C/A", "UNIT", "SCP", "STATION", "DATE", "AMPM", "DAY_NAME"], as_index=False
+    ).ENTRIES.max()
+
+    ##
+    t = df.groupby(
+        ["C/A", "UNIT", "SCP", "STATION", "DATE", "AMPM", "DAY_NAME"], as_index=False
+    ).EXITS.max()
+    tmp['EXITS'] = t['EXITS']
+    
+    # create prev_date and prev_entries cols by shifting these columns forward one day
+    # if shifting date and entries, don't group by date 
+    tmp[["PREV_DATE", "PREV_ENTRIES", "PREV_EXITS"]] = tmp.groupby(
+        ["C/A", "UNIT", "SCP", "STATION", "AMPM"]
+    )[["DATE", "ENTRIES", "EXITS"]].apply(lambda grp: grp.shift(1))
+
+    # Drop the rows for the earliest date in the df, which are now NaNs for prev_date and prev_entries cols
+    tmp.dropna(subset=["PREV_DATE"], axis=0, inplace=True)
+
+    def get_tmp_counts_entries(row, max_counter):
+        """ Max counter is the maximum difference between entries & prev. entries that
+        we will allow.
+        """
+
+        counter = row["ENTRIES"] - row["PREV_ENTRIES"]
+        if counter < 0:
+            # Maybe counter is reversed?
+            counter = -counter
+
+        if counter > max_counter:
+            # Maybe counter was reset to 0?
+            # take the lower value as the counter for this row
+            counter = min(row["ENTRIES"], row["PREV_ENTRIES"])
+
+        if counter > max_counter:
+            # Check it again to make sure we're not still giving a counter that's too big
+            return 0
+
+        return counter
+
+    # we will use a 200k counter - anything more seems incorrect.
+    tmp["TMP_ENTRIES"] = tmp.apply(
+        get_tmp_counts_entries, axis=1, max_counter=200000
+    )
+
+
+    def get_tmp_counts_exits(row, max_counter):
+            """ Max counter is the maximum difference between entries & prev. entries that
+            we will allow.
+            """
+
+            counter = row["EXITS"] - row["PREV_EXITS"]
+            if counter < 0:
+                # Maybe counter is reversed?
+                counter = -counter
+
+            if counter > max_counter:
+                # Maybe counter was reset to 0?
+                # take the lower value as the counter for this row
+                counter = min(row["EXITS"], row["PREV_EXITS"])
+
+            if counter > max_counter:
+                # Check it again to make sure we're not still giving a counter that's too big
+                return 0
+
+            return counter
+
+     # we will use a 200k counter - anything more seems incorrect.
+    tmp["TMP_EXITS"] = tmp.apply(
+        get_tmp_counts_exits, axis=1, max_counter=200000
+    )
+    return tmp
+
