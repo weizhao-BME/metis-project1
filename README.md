@@ -1,5 +1,50 @@
-## Project 1: Exploratory Data Analysis (EDA)
+# Metis Data Science Bootcamp | Project 1
+---
 
+## Exploratory Data Analysis (EDA): NY Metro Transit Authority Turnstile Data
+---
+
+
+**BACK STORY**\*
+
+WomenTechWomenYes (WTWY) has an annual gala at the beginning of the summer each year. To promote the Gala, WTWY will place street teams at entrances to subway stations. The street teams collect email addresses and those who sign up are sent free tickets to our gala.
+
+* \**View the full backstory HERE(**ELLIOT ADD LINK HERE**)*
+
+
+**OUR TASK**
+
+Where we’d like to solicit your engagement is to use MTA subway data, which as I’m sure you know is available freely from the city, to help us optimize the placement of our street teams, such that we can gather the most signatures, ideally from those who will attend the gala and contribute to our cause.
+
+**TOOLS USED (PYTHON)**
+
+- numpy
+- pandas
+- matplotlib
+- seaborn
+- google geocode API
+- geopy
+- geopandas
+- json
+- requests
+
+
+
+
+
+### ADDRESSING THE PROBLEM
+
+Our code for cleaning the data can be found in clean2.py (**ELLIOT ADD LINK HERE**)
+  - the code in ``clean2.py`` was generated using jupyter notebook files.
+  - some of this code is retained in ``wtwy_data_merge.ipynb``(**ELLIOT ADD LINK HERE**)
+  
+
+
+
+
+**ELLIOT: MOVE BELOW TO SEPARATE FILE IN A NEW /etc DIR**
+
+---
 ### Back Story
 
 An email from a potential client:
@@ -57,10 +102,10 @@ An email from a potential client:
 
 ## Milestones
 
-| | Mon, Jan 4 | Tues, Jan 5 | Weds, Jan 6 | Thurs, Jan 7 | Fri, Jan 8 | Mon, Jan 11 |
-| -- | ------------- |-------------| -----------|---------------|------------|-------|
-| **Deliverables** |     | <ul><li>Project 1 Worksheet due before pairs</li></ul> |         |            | <ul><li>Presentations after lunch (time subject to change)<li>Slides due by EOD</li></li></ul>      | <ul><li>Clean code due before pairs</li></ul>|
-| **Progress Goals** | <ul><li>Meet with your group</li><li>Data cleaning</li><li>Check out the project starter</li></ul> | <ul><li>Data cleaning</li><li>Initial EDA and viz</li></ul> | <ul><li>Any remaining data cleaning</li><li>Bulk of EDA and viz</li><li>Any additional work to push your project further</li><li>Start mapping out your presentation</li></ul> | <ul><li>Any remaining EDA, viz, and additional work</li><li>Finish and practice your presentation</li></ul> | <ul><li>Practice your presentation</li></ul> | |
+|                    | Mon, Jan 4                                                                                         | Tues, Jan 5                                                 | Weds, Jan 6                                                                                                                                                                    | Thurs, Jan 7                                                                                                | Fri, Jan 8                                                                                     | Mon, Jan 11                                   |
+| ------------------ | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------- |
+| **Deliverables**   |                                                                                                    | <ul><li>Project 1 Worksheet due before pairs</li></ul>      |                                                                                                                                                                                |                                                                                                             | <ul><li>Presentations after lunch (time subject to change)<li>Slides due by EOD</li></li></ul> | <ul><li>Clean code due before pairs</li></ul> |
+| **Progress Goals** | <ul><li>Meet with your group</li><li>Data cleaning</li><li>Check out the project starter</li></ul> | <ul><li>Data cleaning</li><li>Initial EDA and viz</li></ul> | <ul><li>Any remaining data cleaning</li><li>Bulk of EDA and viz</li><li>Any additional work to push your project further</li><li>Start mapping out your presentation</li></ul> | <ul><li>Any remaining EDA, viz, and additional work</li><li>Finish and practice your presentation</li></ul> | <ul><li>Practice your presentation</li></ul>                                                   |                                               |
 
 
 
