@@ -61,5 +61,7 @@ The following Python libraries were used to gather, clean, merge, analyze, and v
 Our code for gathering, cleaning and merging the data can be found in [/code/clean2.py](https://github.com/edubu2/metis-project1/blob/main/code/clean2.py)
   - the code in ``clean2.py`` was generated using jupyter notebook files.
   - our methods of creating this code is retained in [wtwy_data_merge.ipynb](https://github.com/edubu2/metis-project1/blob/main/code/wtwy_data_merge.ipynb)
+  - clean2.py takes a couple of minutes to run due to the sheer size of the data (millions of rows being pulled and cleaned) as well as pulling zipcode data from geocode API
+  - to better understand how to use clean2.py in jupyter notebook, see [``fresh_start.ipynb``](https://github.com/edubu2/metis-project1/blob/main/code/fresh_start.ipynb)
 
 ### Our Analysis & Conclusions
