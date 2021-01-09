@@ -54,7 +54,8 @@ The following Python libraries were used to gather, clean, merge, analyze, and v
 - jupyter notebook (also built-in with anaconda)
 - the US Census data file called '18zpallagi.csv' that can be downloaded directly [here](https://www.irs.gov/downloads/irs-soi?C=M%3BO%3DD&sort=desc&order=Ng%C3%A0y&page=3) 
   - this is not included in the repository, as it is too large.
-  - the other necessary data files are in the [/code/data folder](https://github.com/edubu2/metis-project1/tree/main/code/data) 
+  - the other necessary data files are in the [/code/data folder](https://github.com/edubu2/metis-project1/tree/main/code/data)
+- Git & GitHub ([fork](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo) this repository and then [clone](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/cloning-a-repository) to your machine) 
 
 #### **NAVIGATING THIS REPOSITORY**
 
@@ -63,5 +64,6 @@ Our code for gathering, cleaning and merging the data can be found in [/code/cle
   - our methods of creating this code is retained in [wtwy_data_merge.ipynb](https://github.com/edubu2/metis-project1/blob/main/code/wtwy_data_merge.ipynb)
   - clean2.py takes a couple of minutes to run due to the sheer size of the data (millions of rows being pulled and cleaned) as well as pulling zipcode data from geocode API
   - to better understand how to use clean2.py in jupyter notebook, see [``fresh_start.ipynb``](https://github.com/edubu2/metis-project1/blob/main/code/fresh_start.ipynb)
+    - note that you will not be able to work on this file in your browser. You will need to do so using a jupyter notebook.
 
 ### Our Analysis & Conclusions
