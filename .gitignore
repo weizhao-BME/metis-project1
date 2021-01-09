@@ -3,5 +3,5 @@ ipynb_checkpoints/
 .ipynb_checkpoints/
 
 __pycache__/
-18zpallagi.csv
 .vscode
+data/18zpallagi.csv
