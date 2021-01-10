@@ -14,17 +14,18 @@ from datetime import datetime as dt
 
 
 def data_wrangling(
-    week_nums=[191228, 191221, 191214, 191207, 191130, 191123, 191116, 191109]
+    geocode_api_key="AIzaSyAn-enZAKGfjRe3WguahiEy1K4QwB9xO2s",
+    week_nums=[191228, 191221, 191214, 191207, 191130, 191123, 191116, 191109],
 ):
     """
+        Takes:
+            - geocode_api_key (string, REQUIRED): Free and easy to acquire at https://developers.google.com/maps/documentation/geocoding/start
+            - week_nums (optional): List of week numbers for which the MTA data will be pulled.
+                - default weeks are Nov 9 - Dec 28, 2019
 
-
-    week_nums (optional): the week numbers for which the MTA data will be pulled (list).
-        - default weeks are Nov 9 - Dec 28, 2019
-
-    Returns:
-        - df_turnstiles: all MTA turnstile data (http://web.mta.info/developers/turnstile.html).
-        - df_ampm: Dataframe filtered by station by AM/PM for each day.
+        Returns:
+            - df_turnstiles: all MTA turnstile data (http://web.mta.info/developers/turnstile.html).
+            - df_ampm: Dataframe filtered by station by AM/PM for each day.
     """
 
     # week_nums of all 2019:
@@ -112,7 +113,7 @@ def data_wrangling(
 
         # you will need to get your own API Key, this API key will not work for you.
         # get your own at: https://developers.google.com/maps/documentation/geocoding/start
-        gmaps = googlemaps.Client(key="AIzaSyAn-enZAKGfjRe3WguahiEy1K4QwB9xO2s")
+        gmaps = googlemaps.Client(key=geocode_api_key)
 
         # initialize dictionary to store zipcodes in
         station_zips = {}
