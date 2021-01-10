@@ -121,7 +121,7 @@ def data_wrangling(
         # create prev_date and prev_entries cols by shifting these columns forward one day
         # if shifting date and entries, don't group by date
         tmp[["PREV_DATE", "PREV_ENTRIES", "PREV_EXITS"]] = tmp.groupby(
-            ["C/A", "UNIT", "SCP", "STATION", "AMPM"]
+            ["C/A", "UNIT", "SCP", "STATION"]
         )[["DATE", "ENTRIES", "EXITS"]].apply(lambda grp: grp.shift(1))
 
         # Drop the rows for the earliest date in the df, which are now NaNs for prev_date and prev_entries cols
