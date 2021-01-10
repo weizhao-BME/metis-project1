@@ -208,8 +208,11 @@ def data_wrangling(
         df_ampm.head(3)
 
         def add_counts(row, max_counter, column_name):
-            """Max counter is the maximum difference between entries & prev. entries that
-            we will allow.
+            """
+                Counts the variance between entries/exits and prev timeframe. entries/exits
+
+                Max counter is the maximum difference between entries & prev. entries that
+                we will allow.
             """
 
             counter = row[column_name] - row[f"PREV_{column_name}"]
@@ -242,8 +245,6 @@ def data_wrangling(
     def main():
         """
         Execute the nested functions above.
-
-
         """
         df_turnstiles = get_mta_data2()
         df_turnstiles = clean_data(df_turnstiles)
@@ -253,6 +254,7 @@ def data_wrangling(
         df_ampm = fixup_entries_exits(df_turnstiles)
         return df_turnstiles, df_ampm
 
+    # now we're back to the main func, data_wrangling()
     df_turnstiles, df_ampm = main()
     return df_turnstiles, df_ampm
 
