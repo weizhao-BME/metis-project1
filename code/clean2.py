@@ -111,6 +111,17 @@ def data_wrangling(
             inplace=True,
         )
 
+        # rename some columns where the names were different in the two tables
+        mta_station_info["STATION"] = mta_station_info["STATION"].replace(
+            "34 ST-PENN STATION", "34 ST-PENN STA"
+        )
+        mta_station_info["STATION"] = mta_station_info["STATION"].replace(
+            "GRD CNTRL-42 ST", "34 ST-PENN STA"
+        )
+        mta_station_info["STATION"] = mta_station_info["STATION"].replace(
+            "34 ST-HERALD SQ", "34 ST-HERALD"
+        )
+
         # only read data from google if there is no station_zips.json file stored
         try:
             station_zips = json.load(open("data/station_zips.json", "r"))
@@ -121,7 +132,7 @@ def data_wrangling(
             gmaps = googlemaps.Client(key=geocode_api_key)
             # initialize dictionary to store zipcodes in
             station_zips = {}
-            mta_station_names = list(mta_station_info.STATION.unique())
+            mta_station_names = list(df_turnstiles.STATION.unique())
 
             for station in mta_station_names:
                 address = station + " Station New York City, NY"
@@ -136,9 +147,6 @@ def data_wrangling(
                     continue
 
         # add zipcode to df_turnstiles
-        mta_station_info["ZIPCODE"] = (
-            mta_station_info["STATION"].str.upper().map(station_zips)
-        )
         df_turnstiles["ZIPCODE"] = df_turnstiles["STATION"].map(station_zips)
 
         # get AGI (adjusted gross income) into df_turnstiles
@@ -191,7 +199,7 @@ def data_wrangling(
             as_index=False,
         )
 
-        df_ampm = ampm_station_group.ENTRIES.max()
+        df_ampm = ampm_station_group.ENTRIES.sum()
         ampm_station_exits = ampm_station_group.EXITS.max()
         df_ampm["EXITS"] = ampm_station_exits["EXITS"]
 
