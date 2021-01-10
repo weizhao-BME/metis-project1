@@ -4,6 +4,7 @@
 
 from __future__ import print_function, division
 
+import json
 import datetime
 import googlemaps
 import pandas as pd
@@ -118,21 +119,27 @@ def data_wrangling(
         # get your own at: https://developers.google.com/maps/documentation/geocoding/start
         gmaps = googlemaps.Client(key=geocode_api_key)
 
-        # initialize dictionary to store zipcodes in
-        station_zips = {}
-        mta_station_names = list(mta_station_info.STATION.unique())
+        # only read data from google if there is no station_zips.json file stored
+        try:
+            station_zips = json.load(open("data/station_zips.json", "r"))
+            assert station_zips["23 ST"] == "10011"
+        except:
 
-        for station in mta_station_names:
-            address = station + " Station New York City, NY"
-            geocode_result = gmaps.geocode(address)
-            # use try/except to avoid errors when Google can't find the zipcode (just keep going)
-            try:
-                # geocode_result is in a complex json format and requires us to access it like this
-                zipcode = geocode_result[0]["address_components"][6]["long_name"]
-                if len(zipcode) == 5:
-                    station_zips[station.upper()] = str(zipcode)
-            except:
-                continue
+            # initialize dictionary to store zipcodes in
+            station_zips = {}
+            mta_station_names = list(mta_station_info.STATION.unique())
+
+            for station in mta_station_names:
+                address = station + " Station New York City, NY"
+                geocode_result = gmaps.geocode(address)
+                # use try/except to avoid errors when Google can't find the zipcode (just keep going)
+                try:
+                    # geocode_result is in a complex json format and requires us to access it like this
+                    zipcode = geocode_result[0]["address_components"][6]["long_name"]
+                    if len(zipcode) == 5:
+                        station_zips[station.upper()] = str(zipcode)
+                except:
+                    continue
 
         # add zipcode to df_turnstiles
         mta_station_info["ZIPCODE"] = (
@@ -199,7 +206,7 @@ def data_wrangling(
         # create prev_date and prev_entries cols by shifting these columns forward one day
         # if shifting date and entries, don't group by date
         df_ampm[["PREV_DATE", "PREV_ENTRIES", "PREV_EXITS"]] = df_ampm.groupby(
-            ["C/A", "UNIT", "SCP", "STATION", "ZIPCODE", "ZIPCODE_AGI", "AMPM"]
+            ["C/A", "UNIT", "SCP", "STATION", "ZIPCODE", "ZIPCODE_AGI"]
         )[["DATE", "ENTRIES", "EXITS"]].apply(lambda grp: grp.shift(1))
 
         # Drop the rows for the earliest date in the df, which are now NaNs for prev_date and prev_entries cols
