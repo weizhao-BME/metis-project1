@@ -15,7 +15,7 @@ from datetime import datetime as dt
 
 
 def data_wrangling(
-    geocode_api_key="AIzaSyAn-enZAKGfjRe3WguahiEy1K4QwB9xO2s",
+    geocode_api_key="AIzaSyB6cfk-jWkqh24U8yBqYoiNZwtDK4B2Atk",
     week_nums=[191228, 191221, 191214, 191207, 191130, 191123, 191116, 191109],
 ):
     """
@@ -23,7 +23,6 @@ def data_wrangling(
             - geocode_api_key (string, REQUIRED): Free and easy to acquire at https://developers.google.com/maps/documentation/geocoding/start
             - week_nums (optional): List of week numbers for which the MTA data will be pulled.
                 - default weeks are Nov 9 - Dec 28, 2019
-
         Returns:
             - df_turnstiles: all MTA turnstile data (http://web.mta.info/developers/turnstile.html).
             - df_ampm: Dataframe filtered by station by AM/PM for each day.
@@ -36,7 +35,6 @@ def data_wrangling(
 
     def get_mta_data2():
         """Download data from MTA website and create DT column.
-
         Returns: dataFrame
         """
 
@@ -55,10 +53,8 @@ def data_wrangling(
     def clean_data(df_turnstiles):
         """Removes rows where 'DESC' == 'RECOVR AUD' (not 'REGULAR').
         These caused duplicate entries when grouping by turnstile & datetime.
-
         - Removes DESC column.
         - Fixes EXITS column name.
-
         """
 
         # sort values in a such a way that the duplicate values sit directly below the originals, so they will be removed.
@@ -176,9 +172,7 @@ def data_wrangling(
     def fixup_entries_exits(df_turnstiles):
         """
         Clean entries and exits column.
-
         Returns a dataFrame grouped by individual turnstile and AM/PM.
-
         Entries & exit columns converted from cumulative --> change from previous value
         """
         # group data by AMPM, taking the maximum entries/exits for each date
@@ -262,4 +256,3 @@ def data_wrangling(
     # now we're back to the main func, data_wrangling()
     df_turnstiles, df_ampm = main()
     return df_turnstiles, df_ampm
-
