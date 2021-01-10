@@ -237,8 +237,11 @@ def data_wrangling(
 
         # we will use a 200k counter - anything more seems incorrect.
         df_ampm["TMP_EXITS"] = df_ampm.apply(
-            add_counts, axis=1, max_counter=200000, column_name="ENTRIES"
+            add_counts, axis=1, max_counter=200000, column_name="EXITS"
         )
+
+        df_ampm["TRAFFIC"] = df_ampm.TMP_ENTRIES + df_ampm.TMP_EXITS
+
         return df_ampm
 
     def main():
