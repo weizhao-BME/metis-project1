@@ -115,16 +115,14 @@ def data_wrangling(
             inplace=True,
         )
 
-        # you will need to get your own API Key, this API key will not work for you.
-        # get your own at: https://developers.google.com/maps/documentation/geocoding/start
-        gmaps = googlemaps.Client(key=geocode_api_key)
-
         # only read data from google if there is no station_zips.json file stored
         try:
             station_zips = json.load(open("data/station_zips.json", "r"))
             assert station_zips["23 ST"] == "10011"
         except:
-
+            # you may need to get your own API Key, this API key will not work for you.
+            # get your own at: https://developers.google.com/maps/documentation/geocoding/start
+            gmaps = googlemaps.Client(key=geocode_api_key)
             # initialize dictionary to store zipcodes in
             station_zips = {}
             mta_station_names = list(mta_station_info.STATION.unique())
