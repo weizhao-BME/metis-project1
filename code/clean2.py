@@ -28,6 +28,9 @@ def data_wrangling(
             - df_ampm: Dataframe filtered by station by AM/PM for each day.
     """
 
+    if geocode_api_key == "":
+        raise ValueError("You must assign a valid key to geocode_api_key parameter")
+
     # week_nums of all 2019:
 
     def get_mta_data2():
