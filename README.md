@@ -105,5 +105,4 @@ You can find their sources here:
 - [MTA turnstile data](http://web.mta.info/developers/turnstile.html)
 - [IRS Income by Zipcode](https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi)
 - [MTA Station zipcode data](http://web.mta.info/developers/data/nyct/subway/Stations.csv) 
-- [NYC income by zipcode data](https://www.irs.gov/pub/irs-soi/18zpallagi.csv)
 - [NYC zipcode by map (geodata)](https://jsspina.carto.com/tables/nyc_zip_code_tabulation_areas_polygons/public/map)
