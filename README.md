@@ -44,7 +44,7 @@ The following Python libraries were used:
 
 - Python 3.x
 - Git installation on your local machine and a GitHub account ([fork](https://docs.github.com/en/free-pro-team@latest/github/getting-started-with-github/fork-a-repo) this repository and then [clone](https://docs.github.com/en/free-pro-team@latest/github/creating-cloning-and-archiving-repositories/cloning-a-repository) to your machine)
-- Install above Python libraries (if you're running anaconda, you probably havee most of them already)
+- Install above Python libraries (if you're running anaconda, you probably have most of them already)
 - Google ['Geocode' API](https://developers.google.com/maps/documentation/geocoding/start) key - generate your own!
 
 ---
@@ -103,6 +103,6 @@ All data files themselves can be found in [/code/data](https://github.com/edubu2
 You can find their sources here:
 
 - [MTA turnstile data](http://web.mta.info/developers/turnstile.html)
+- [IRS Income by Zipcode](https://www.irs.gov/statistics/soi-tax-stats-individual-income-tax-statistics-zip-code-data-soi)
 - [MTA Station zipcode data](http://web.mta.info/developers/data/nyct/subway/Stations.csv) 
-- [NYC income by zipcode data](https://www.irs.gov/pub/irs-soi/18zpallagi.csv)
 - [NYC zipcode by map (geodata)](https://jsspina.carto.com/tables/nyc_zip_code_tabulation_areas_polygons/public/map)
