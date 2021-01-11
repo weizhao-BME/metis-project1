@@ -5,7 +5,7 @@ This file includes all the functions for the analysis.
 """
 import numpy as np
 import pandas as pd
-import geopandas as gp
+import geopandas as gp # make sure descartes and shapely are installed
 from pandas.api.types import CategoricalDtype
 
 #
