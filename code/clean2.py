@@ -20,7 +20,8 @@ def data_wrangling(
 ):
     """
         Takes:
-            - geocode_api_key (string, REQUIRED): Free and easy to acquire at https://developers.google.com/maps/documentation/geocoding/start
+            - geocode_api_key (string): Free and easy to acquire at https://developers.google.com/maps/documentation/geocoding/start
+                - only required if data/station_zips.json is not present.
             - week_nums (optional): List of week numbers for which the MTA data will be pulled.
                 - default weeks are Nov 9 - Dec 28, 2019
         Returns:
