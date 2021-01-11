@@ -243,6 +243,9 @@ def data_wrangling(
         station_zips = json.load(open("data/station_zips.json", "r"))
         df_ampm["ZIPCODE"] = df_ampm["STATION"].map(station_zips)
 
+        station_agis = dict(zip(df_turnstiles["STATION"], df_turnstiles["ZIPCODE_AGI"]))
+        df_ampm["ZIPCODE_AGI"] = df_ampm["STATION"].map(station_agis)
+
         return df_ampm
 
     def main():
