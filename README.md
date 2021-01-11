@@ -58,6 +58,7 @@ Gathering, cleaning & merging data: [/code/clean2.py](https://github.com/edubu2/
   - Note: to use, clone this repository and open using JupyerLab/Jupyter notebook.
 
 Analyzing data: [/code/analyze.py](https://github.com/edubu2/metis-project1/blob/main/code/analyze.py)
+
 Visualizing data: for our cool graphs, keep scrolling! You can also see them here: [/figures](https://github.com/edubu2/metis-project1/blob/main/figures)
 
 ---
