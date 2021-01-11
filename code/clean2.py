@@ -188,7 +188,7 @@ def data_wrangling(
             ["C/A", "UNIT", "STATION", "DATE", "AMPM", "DAY_NAME",], as_index=False,
         )
 
-        df_ampm = ampm_station_group.ENTRIES.sum()
+        df_ampm = ampm_station_group.ENTRIES.max()
         ampm_station_exits = ampm_station_group.EXITS.max()
         df_ampm["EXITS"] = ampm_station_exits["EXITS"]
 
