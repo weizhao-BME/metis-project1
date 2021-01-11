@@ -84,7 +84,7 @@ List (all on weekdays): (1) Penn Station (PM), (2) Grand Central (PM), (3) 34 He
 
 We give a qualitative picture of NYC by income:
 
-<img src="./figures/manhattan_income_graph.png">
+<img src="./figures/income_by_zip.png">
 **The darker the blue, the higher the adjusted gross income of that area.**
 
 
