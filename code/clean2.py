@@ -15,7 +15,7 @@ from datetime import datetime as dt
 
 
 def data_wrangling(
-    geocode_api_key="AIzaSyB6cfk-jWkqh24U8yBqYoiNZwtDK4B2Atk",
+    geocode_api_key="",
     week_nums=[191228, 191221, 191214, 191207, 191130, 191123, 191116, 191109],
 ):
     """
@@ -185,7 +185,8 @@ def data_wrangling(
         """
         # group data by AMPM, taking the maximum entries/exits for each date
         ampm_station_group = df_turnstiles.groupby(
-            ["C/A", "UNIT", "SCP", "STATION", "DATE", "AMPM", "DAY_NAME",], as_index=False,
+            ["C/A", "UNIT", "SCP", "STATION", "DATE", "AMPM", "DAY_NAME",],
+            as_index=False,
         )
 
         df_ampm = ampm_station_group.ENTRIES.max()
