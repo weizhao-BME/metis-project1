@@ -38,6 +38,7 @@ The following Python libraries were used:
 - geopandas
 - json
 - requests
+- descartes
 
 ---
 ### REQUIRED RESOURCES TO REPRODUCE LOCALLY
