@@ -77,7 +77,7 @@ Using this assumption, we aggregate a list of top 10 stations by foot traffic, a
 <img src="./figures/weekly_ampm_average_traffic.svg" height="400">
 
 A list of the top 10 stations for Model 1:
-List: (1) , (2), (3), (4), (5).
+List (all on weekdays): (1) Penn Station (PM), (2) Grand Central (PM), (3) 34 Herald St. (PM), (4) Time's Square (PM), (5) Union St (PM).
 
 #### Model 2: Go to the highest income stations.
 *Assumption of the model*: people with more disposable income will donate more, so we prioritize placing street teams in higher income neighborhoods.
@@ -88,8 +88,7 @@ We give a qualitative picture of NYC by income:
 **The darker the blue, the higher the adjusted gross income of that area.**
 
 
-A list of the top 10 stations for Model 2:
-List: (1), (2), (3), (4), (5).
+We advise that, if based off income, the Upper East Side area of Manhattan is considered.
 
 ---
 ### Our Final Recommendations
