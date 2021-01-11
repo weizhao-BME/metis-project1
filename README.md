@@ -56,6 +56,7 @@ Gathering, cleaning & merging data: [/code/clean2.py](https://github.com/edubu2/
   - Runtime: 1-5 minutes due to data volume, google API usage
   - Curious about how to use it? See [``fresh_start.ipynb``](https://github.com/edubu2/metis-project1/blob/main/code/fresh_start.ipynb)
   - Note: to use, clone this repository and open using JupyerLab/Jupyter notebook.
+
 Analyzing data: [/code/analyze.py](https://github.com/edubu2/metis-project1/blob/main/code/analyze.py)
 Visualizing data: for our cool graphs, keep scrolling! You can also see them here: [/figures](https://github.com/edubu2/metis-project1/blob/main/figures)
 
