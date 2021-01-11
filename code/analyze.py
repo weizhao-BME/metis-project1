@@ -170,3 +170,50 @@ def calculate_weekly_traffic_ampm_for_top_stations(top_stations, top_stations_na
     t_wke_pm = sort_by_station(top_stations_name, t_wke_pm)
     #
     return t_wkd_am, t_wkd_pm, t_wke_am, t_wke_pm
+
+def map_stations_daily_traffic(df_daily):
+    """
+    Function to join Latitude and Longitude information based for all stations.  
+    """
+   
+    #get Lat/Lon data 
+    mta_stations = pd.read_csv("http://web.mta.info/developers/data/nyct/subway/Stations.csv")
+    mta_stations.rename(columns={'Stop Name': 'STATION', 'GTFS Latitude': 'Lat', 'GTFS Longitude': 'Lon'}, inplace=True)
+    
+    #rename STATION to all uppercase to stay consistent with df_daily station names
+    mta_stations['STATION'] = mta_stations['STATION'].str.upper()
+    
+    #set index as STATION as pd.merge() requires the indexes of df_daily and mta_stations to be identical
+    mta_stations.set_index(['STATION'], inplace=True)
+    df_daily.set_index(['STATION'], inplace=True)
+    
+    #merge on right, as to fill in for every station in df_daily
+    df_daily_map = pd.merge(mta_stations, df_daily, on='STATION', how='right')
+    
+    #remove un-needed columns
+    df_daily_map.drop(['Station ID', 'Complex ID', 'GTFS Stop ID', 'Division', 'Line', 'Borough', 'Daytime Routes', 
+                       'Structure','North Direction Label', 'South Direction Label', 'ADA', 'ADA Notes'], axis=1, inplace=True)
+    
+    return df_daily_map
+
+def map_agi_by_zipcode(df_ampm):
+    """
+    Function to merge in geopandas "Shape" parameters on zipcode, used to graph agi by NYC zipcode area.
+    Takes in df_ampm.
+    """
+   
+    #read in necessary parameters to run geopandas, rename postalCode to zipcode (common name with df_daily_map)
+    geopandas_data = gp.read_file('data/nyc-zip-code-tabulation-areas-polygons.geojson')
+    geopandas_data['ZIPCODE'] = geopandas_data['postalCode'].astype(int)
+
+    #convert df_ampm's ZIPCODE to an int-type 
+    df_ampm['ZIPCODE'] = df_ampm['ZIPCODE'].astype(int)
+    
+    #merge in geopandas_data on zipcode
+    df_agi_by_zipcode_map = pd.merge(geopandas_data, df_ampm, on='ZIPCODE')
+    
+    #remove messy & unnecessary columns
+    df_agi_by_zipcode_map.drop(['OBJECTID', 'postalCode', 'PO_NAME', 'STATE', 'borough', 'ST_FIPS', 'CTY_FIPS', 
+                               'BLDGpostalCode', '@id'], axis=1, inplace=True)
+    
+    return df_agi_by_zipcode_map
