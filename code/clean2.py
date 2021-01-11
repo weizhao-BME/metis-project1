@@ -239,6 +239,10 @@ def data_wrangling(
 
         df_ampm["TRAFFIC"] = df_ampm.TMP_ENTRIES + df_ampm.TMP_EXITS
 
+        # add zipcode to df_ampm
+        station_zips = json.load(open("data/station_zips.json", "r"))
+        df_ampm["ZIPCODE"] = df_ampm["STATION"].map(station_zips)
+
         return df_ampm
 
     def main():
