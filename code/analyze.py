@@ -4,6 +4,7 @@
 This file includes all the functions for the analysis.
 """
 import numpy as np
+import pandas as pd
 from pandas.api.types import CategoricalDtype
 #
 def calculate_total_daily_traffic(df_ampm):
