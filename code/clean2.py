@@ -185,7 +185,7 @@ def data_wrangling(
         """
         # group data by AMPM, taking the maximum entries/exits for each date
         ampm_station_group = df_turnstiles.groupby(
-            ["C/A", "UNIT", "STATION", "DATE", "AMPM", "DAY_NAME",], as_index=False,
+            ["C/A", "UNIT", "SCP", "STATION", "DATE", "AMPM", "DAY_NAME",], as_index=False,
         )
 
         df_ampm = ampm_station_group.ENTRIES.max()
@@ -195,7 +195,7 @@ def data_wrangling(
         # create prev_date and prev_entries cols by shifting these columns forward one day
         # if shifting date and entries, don't group by date
         df_ampm[["PREV_DATE", "PREV_ENTRIES", "PREV_EXITS"]] = df_ampm.groupby(
-            ["C/A", "UNIT", "STATION"]
+            ["C/A", "UNIT", "SCP", "STATION"]
         )[["DATE", "ENTRIES", "EXITS"]].apply(lambda grp: grp.shift(1))
 
         # Drop the rows for the earliest date in the df, which are now NaNs for prev_date and prev_entries cols
