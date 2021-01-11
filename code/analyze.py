@@ -98,7 +98,7 @@ def sort_by_day_name(t_df):
 
 def generate_mask_for_top_stations(top_stations, top_stations_name, df_daily):
     """
-    Function to generate mask for top_stations based on statin name
+    Function to generate mask for top_stations based on station name
     """
     mask2 = np.zeros((len(df_daily["STATION"]), len(top_stations)))
     for i, t_name in enumerate(top_stations_name):
@@ -180,7 +180,7 @@ def calculate_weekly_traffic_ampm_for_top_stations(
 
 def map_stations_daily_traffic(df_daily):
     """
-    Function to join Latitude and Longitude information based for all stations.  
+    Function to join Latitude and Longitude information based on data from all stations.  
     """
 
     # get Lat/Lon data
@@ -240,6 +240,8 @@ def map_agi_by_zipcode(df_ampm):
     geopandas_data["ZIPCODE"] = geopandas_data["postalCode"].astype(int)
 
     # convert df_ampm's ZIPCODE to an int-type
+    df_ampm["ZIPCODE"] = pd.to_numeric(df_ampm["ZIPCODE"], errors="coerce")
+    df_ampm = df_ampm.dropna(subset=["ZIPCODE"])
     df_ampm["ZIPCODE"] = df_ampm["ZIPCODE"].astype(int)
 
     # merge in geopandas_data on zipcode
